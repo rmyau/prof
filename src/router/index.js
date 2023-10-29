@@ -12,18 +12,13 @@ const router = createRouter({
             component: () => import('@/views/AuthExpert.vue'),
         },
         {
-            path: '/games/:expertLogin',
+            path: '/games/:expertCode',
             name: 'games',
             component: () => import('@/views/GamesList.vue'),
         },
         {
-            path: '/comand/:comandId',
-            name: 'comandPlayers',
-            component: () => import('@/views/PlayersList.vue'),
-        },
-        {
-            path: '/player/:playerId',
-            name: 'playerCriterionBlocks',
+            path: '/evaluation',
+            name: 'criterionBlocks',
             component: () => import('@/views/CriterionBlocks.vue'),
         }
     ],

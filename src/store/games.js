@@ -1,17 +1,31 @@
-import { defineStore } from 'pinia'
-import { GameData } from '@/service/GameData.js'
-import ExpertGame from '@/model/game.js'
+import { defineStore } from 'pinia';
+import { ExpertGame } from '@/model/game.js';
+import api from '@/api';
+import axios from 'axios';
 
 export const useExpertGamesStore = defineStore('expertGames', {
-    state: () => ({
-        games: [],
-    }),
+	state: () => ({
+		games: [],
+	}),
 
-    actions: {
-        /**Получение доступных игр для эксперта */
-        async getGames() {
-            const data = GameData.getGamesData()
-            this.games = data.map((item) => Object.freeze(new ExpertGame(item)))
-        },
-    },
-})
+	actions: {
+		/**Получение доступных игр для эксперта
+		 * @param {number} expertCode
+		 */
+		async getGames(expertCode) {
+			try {
+				const data = await axios
+					.post(api.getGames, {
+						data: { expertCode },
+					})
+					.then(response => response.data);
+
+				this.games = data.map(item => new ExpertGame(item));
+				console.log(typeof this.games);
+				console.log(this.games);
+			} catch {
+				this.games = [];
+			}
+		},
+	},
+});
