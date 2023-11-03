@@ -5,6 +5,9 @@ import axios from 'axios';
 
 export const useExpertGamesStore = defineStore('expertGames', {
 	state: () => ({
+		/**Список игры
+		 * @type {Array<ExpertGame>}
+		 */
 		games: [],
 	}),
 
@@ -20,9 +23,9 @@ export const useExpertGamesStore = defineStore('expertGames', {
 					})
 					.then(response => response.data);
 
-				this.games = data.map(item => new ExpertGame(item));
-				console.log(typeof this.games);
-				console.log(this.games);
+				this.games = data.map(item =>
+					Object.freeze(new ExpertGame(item))
+				);
 			} catch {
 				this.games = [];
 			}

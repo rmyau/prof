@@ -4,4 +4,6 @@ export default {
 	getUsers: base + 'getusers',
 	login: base + 'login',
 	getGames: base + 'getGames',
+	getCriteriaList: base + 'getCriteriaList',
+	getTeamUsers: base + 'getTeamUsers',
 };

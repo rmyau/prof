@@ -7,7 +7,7 @@ export class ExpertGame {
 	 * @param {string} game.eventDate - дата игры
 	 */
 	constructor(game) {
-		this.id = game?.code ?? null;
+		this.code = game?.code ?? null;
 		this.name = game?.name ?? null;
 		this.eventDate = Formatter.formatDate(Number(game?.eventdate)) ?? null;
 	}

@@ -17,8 +17,8 @@ const router = createRouter({
             component: () => import('@/views/GamesList.vue'),
         },
         {
-            path: '/evaluation',
-            name: 'criterionBlocks',
+            path: '/evaluation/:expertCode/:gameCode',
+            name: 'evaluation',
             component: () => import('@/views/CriterionBlocks.vue'),
         }
     ],

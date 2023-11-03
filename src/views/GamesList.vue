@@ -34,7 +34,6 @@
 </template>
 <script>
 import { useExpertGamesStore } from '@/store/games.js';
-import { useComandPlayersStore } from '@/store/comandPlayers.js';
 import { mapActions, mapState } from 'pinia';
 export default {
 	name: 'GamesList',
@@ -48,28 +47,25 @@ export default {
 	},
 	methods: {
 		...mapActions(useExpertGamesStore, ['getGames']),
-		...mapActions(useComandPlayersStore, ['getComandId']),
 		async chooseGame(game) {
-			console.log(game, 'click');
-			// this.$router.push({ path: '/comand/' + comandId });
+			let expertCode = Number(this.$route.params.expertCode);
+			this.$router.push({
+				name: 'evaluation',
+				params: { expertCode: expertCode, gameCode: game.code },
+			});
 		},
 	},
 	computed: {
 		...mapState(useExpertGamesStore, ['games']),
 	},
 	mounted() {
-		if (!this.games.length) {
 			this.getGames(Number(this.$route.params.expertCode));
-		}
 	},
 };
 </script>
-<style scoped>
+<style scoped></style>
 
-</style>
-
-element.style {
-}
+element.style { }
 <style>
 .p-datatable .p-datatable-thead > tr > th {
 	font-weight: 600;
