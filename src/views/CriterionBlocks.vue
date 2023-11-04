@@ -5,7 +5,7 @@
 			:key="criterionBlock.blockId"
 			class="m-3"
 		>
-			<span class="text-xl text-900 font-bold">{{
+			<span class="text-xl text-900 font-bold p-2">{{
 				criterionBlock.nameCriterionBlock
 			}}</span>
 			<div
@@ -13,8 +13,16 @@
 				:key="criterion.id"
 				class="p-2"
 			>
-				<span class="text-l text-900 font-bold">{{ criterion.name }}</span>
-				<criterion-score :criterion-code="criterion.id"></criterion-score>
+				<div
+					class="text-l text-900 font-bold p-2"
+					style="background-color: rgb(209, 185, 231)"
+				>
+					{{ criterion.name }}
+				</div>
+				<criterion-score
+					:criterion-code="criterion.id"
+					:player-list="this.playerList"
+				></criterion-score>
 			</div>
 		</div>
 	</div>
@@ -27,7 +35,7 @@ import CriterionScore from '@/components/CriterionScore.vue';
 export default {
 	name: 'CriterionBlocks',
 	components: {
-		CriterionScore
+		CriterionScore,
 	},
 	data() {
 		return {
@@ -39,22 +47,22 @@ export default {
 			'getCriterionList',
 			'getPlayerList',
 		]),
-		goToCriterianBlockPlayer(block) {
-			console.log(block);
-		},
 	},
 	computed: {
 		...mapState(usePlayerCriterionStore, ['criterionList', 'playerList']),
 	},
 
-	mounted() {
+	async mounted() {
 		if (!this.criterionList.length) {
 			this.getCriterionList();
 		}
-		this.getPlayerList(
+	},
+	async created() {
+		await this.getPlayerList(
 			Number(this.$route.params.gameCode),
 			Number(this.$route.params.expertCode)
 		);
+		console.log(this.playerList);
 	},
 };
 </script>

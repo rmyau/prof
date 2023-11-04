@@ -39,8 +39,8 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 			try {
 				const data = await axios
 					.post(api.getTeamUsers, { data: { gameCode, expertCode } })
-					.then(response => response.data.data);
-
+					.then(response => response.data);
+				console.log(data, 'data');
 				this.playerList = data;
 			} catch {
 				this.playerList = [];

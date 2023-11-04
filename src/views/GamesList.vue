@@ -59,7 +59,7 @@ export default {
 		...mapState(useExpertGamesStore, ['games']),
 	},
 	mounted() {
-			this.getGames(Number(this.$route.params.expertCode));
+		this.getGames(Number(this.$route.params.expertCode));
 	},
 };
 </script>

@@ -6,4 +6,5 @@ export default {
 	getGames: base + 'getGames',
 	getCriteriaList: base + 'getCriteriaList',
 	getTeamUsers: base + 'getTeamUsers',
+	getCriterianScore: base + 'getCriterianScore'
 };

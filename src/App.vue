@@ -24,9 +24,9 @@ export default {
 		...mapState(useExpertStore, ['login', 'name', 'code']),
 	},
 	mounted() {
-		if (!this.code) {
-			this.$router.push({ path: '/' });
-		}
+		// if (!this.code) {
+		// 	this.$router.push({ path: '/' });
+		// }
 	},
 };
 </script>
