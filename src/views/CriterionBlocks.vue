@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import { usePlayerCriterionStore } from '@/store/playerCriterion.js';
-import { mapActions, mapState } from 'pinia';
-import CriterionScore from '@/components/CriterionScore.vue';
+import CriterionScore from '@/components/CriterionScore.vue'
+import { usePlayerCriterionStore } from '@/store/playerCriterion.js'
+import { mapActions, mapState } from 'pinia'
 export default {
 	name: 'CriterionBlocks',
 	components: {

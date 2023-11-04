@@ -1,40 +1,40 @@
 <template>
 	<div class="flex justify-content-center mt-8">
-		<p-card class="w-5">
+		<p-card class="w-4 block">
 			<template #title
-				><div style="text-align: center">
+				><div style="text-align: center" class="mt-4">
 					Добро пожаловать!
 				</div></template
 			>
 			<template #content>
 				<div class="flex justify-content-center mt-4">
 					<div
-						class="flex flex-column justify-content-center gap-4 w-6"
+						class="flex flex-column justify-content-center gap-4 w-8"
 					>
 						<span class="p-float-label">
 							<p-input-text
 								id="login"
 								v-model="inputLogin"
-								class="w-full"
+								class="w-full btn"
 								:class="{ 'p-invalid': invalidData }"
-								style="border-radius: 30px"
 							></p-input-text>
 							<label for="login">Логин</label>
 						</span>
 						<span class="p-float-label">
-							<p-input-text
+							<p-password
 								id="password"
 								v-model="inputPassword"
-								class="w-full"
+								class="w-full btn"
+								:feedback="false"
+								toggleMask
 								:class="{ 'p-invalid': invalidData }"
-								style="border-radius: 30px"
-							></p-input-text>
+							></p-password>
 							<label for="password">Пароль</label>
 						</span>
 						<div class="mt-3 flex flex-column">
 							<p-button
 								label="Войти"
-								style="border-radius: 30px"
+								class="w-full btn"
 								@click="goNext()"
 							></p-button>
 							<div
@@ -51,10 +51,9 @@
 		</p-card>
 	</div>
 </template>
-
 <script>
-import { useExpertStore } from '@/store/expert.js';
-import { mapActions, mapState } from 'pinia';
+import { useExpertStore } from '@/store/expert.js'
+import { mapActions, mapState } from 'pinia'
 export default {
 	name: 'AuthExpert',
 	data() {
@@ -78,3 +77,20 @@ export default {
 	},
 };
 </script>
+<style scoped>
+
+.block {
+	border-radius: 20px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.btn {
+	border-radius: 30px;
+}
+
+::v-deep(.p-input-icon-right > .p-inputtext ) {
+    border-radius: 30px;
+	width: 100%;
+}
+
+</style>

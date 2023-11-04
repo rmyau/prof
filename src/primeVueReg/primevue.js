@@ -1,15 +1,16 @@
 import {
-	PrimeVue,
-	InputText,
+	Avatar,
 	Button,
 	Card,
-	Toolbar,
-	Avatar,
-	DataTable,
 	Column,
+	DataTable,
 	Dropdown,
-	Tooltip,
-} from './components';
+	InputText,
+	Password,
+	PrimeVue,
+	Toolbar,
+	Tooltip
+} from './components'
 
 export default function regPrimeVue(app) {
 	app.use(PrimeVue, { ripple: true });
@@ -22,4 +23,5 @@ export default function regPrimeVue(app) {
 	app.component('PDataTable', DataTable);
 	app.component('PColumn', Column);
 	app.component('PDropdown', Dropdown);
+	app.component('PPassword', Password);
 }

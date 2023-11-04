@@ -1,7 +1,7 @@
 <template>
 	<p-toolbar
 		v-if="$route.name !== 'auth'"
-		style="border-bottom: 1px solid rgb(96, 24, 163); border-radius: 0%"
+		style="border-bottom: 2px solid #d1b9e7;"
 	>
 		<template #end>
 			<p-avatar
@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { useExpertStore } from '@/store/expert.js';
-import { mapState } from 'pinia';
+import { useExpertStore } from '@/store/expert.js'
+import { mapState } from 'pinia'
 export default {
 	name: 'App',
 	computed: {
@@ -32,6 +32,12 @@ export default {
 </script>
 
 <style>
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #f0f0f0;
+}
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;

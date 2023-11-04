@@ -1,24 +1,27 @@
-import PrimeVue from 'primevue/config';
+import PrimeVue from 'primevue/config'
 
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import Card from 'primevue/card';
-import Toolbar from 'primevue/toolbar';
-import Avatar from 'primevue/avatar';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Dropdown from 'primevue/dropdown';
-import Tooltip from 'primevue/tooltip';
+import Avatar from 'primevue/avatar'
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
+import Dropdown from 'primevue/dropdown'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Toolbar from 'primevue/toolbar'
+import Tooltip from 'primevue/tooltip'
 
 export {
-	PrimeVue,
-	InputText,
+	Avatar,
 	Button,
 	Card,
-	Toolbar,
-	Avatar,
-	DataTable,
 	Column,
+	DataTable,
 	Dropdown,
+	InputText,
+	Password,
+	PrimeVue,
+	Toolbar,
 	Tooltip
-};
+}
+
