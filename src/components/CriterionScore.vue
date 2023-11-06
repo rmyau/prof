@@ -28,17 +28,18 @@
 	</div>
 </template>
 <script>
-import { mapActions, mapState } from 'pinia';
+import { mapActions } from 'pinia';
 import { usePlayerCriterionStore } from '@/store/playerCriterion.js';
 export default {
 	name: 'CriterionScore',
 	props: {
 		criterionCode: Number,
+		playersScoreData: Array, //данные пользователей с оценками
+		players: Array, //данные для отображения столбцом по пользователям
 	},
 	data() {
 		return {
 			items: null,
-			players: [],
 			data: [],
 		};
 	},
@@ -50,17 +51,9 @@ export default {
 				.join('\n');
 		},
 	},
-	computed: {
-		...mapState(usePlayerCriterionStore, ['playersScoreData']),
-	},
 	async mounted() {
 		this.items = await this.getCritetionPartsData(this.criterionCode);
 		if (this.items.length) {
-			this.players = this.playersScoreData.map(player => ({
-				field: `player_${player.code}`,
-				header: `Игрок ${player.code}`,
-				code: player.code,
-			}));
 			// Преобразуем данные
 			this.data = this.items.map(item => {
 				const playerScores = {};

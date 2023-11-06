@@ -21,7 +21,8 @@
 				</div>
 				<criterion-score
 					:criterion-code="criterion.id"
-					:player-list="this.playerList"
+					:players-score-data="this.playersScoreData"
+					:players="this.players"
 				></criterion-score>
 			</div>
 		</div>
@@ -40,6 +41,7 @@ export default {
 	data() {
 		return {
 			criterionBlocksData: [],
+			players: [],
 		};
 	},
 	methods: {
@@ -61,10 +63,18 @@ export default {
 		if (!this.criterionList.length) {
 			this.getCriterionList();
 		}
+	},
+	async created() {
 		await this.getPlayersScoreData(
 			Number(this.$route.params.gameCode),
 			Number(this.$route.params.expertCode)
 		);
+		//Список игроков для колонок таблицы с оценками
+		this.players = this.playersScoreData.map(player => ({
+			field: `player_${player.code}`,
+			header: `Игрок ${player.code}`,
+			code: player.code,
+		}));
 	},
 };
 </script>
