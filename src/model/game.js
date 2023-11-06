@@ -9,6 +9,6 @@ export class ExpertGame {
 	constructor(game) {
 		this.code = game?.code ?? null;
 		this.name = game?.name ?? null;
-		this.eventDate = Formatter.formatDate(Number(game?.eventdate)) ?? null;
+		this.eventDate = Formatter.formatDate(Number(game?.eventDate)) ?? null;
 	}
 }

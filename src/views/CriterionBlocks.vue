@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import CriterionScore from '@/components/CriterionScore.vue'
-import { usePlayerCriterionStore } from '@/store/playerCriterion.js'
-import { mapActions, mapState } from 'pinia'
+import CriterionScore from '@/components/CriterionScore.vue';
+import { usePlayerCriterionStore } from '@/store/playerCriterion.js';
+import { mapActions, mapState } from 'pinia';
 export default {
 	name: 'CriterionBlocks',
 	components: {
@@ -46,23 +46,25 @@ export default {
 		...mapActions(usePlayerCriterionStore, [
 			'getCriterionList',
 			'getPlayerList',
+			'getPlayersScoreData',
 		]),
 	},
 	computed: {
-		...mapState(usePlayerCriterionStore, ['criterionList', 'playerList']),
+		...mapState(usePlayerCriterionStore, [
+			'criterionList',
+			'playerList',
+			'playersScoreData',
+		]),
 	},
 
 	async mounted() {
 		if (!this.criterionList.length) {
 			this.getCriterionList();
 		}
-	},
-	async created() {
-		await this.getPlayerList(
+		await this.getPlayersScoreData(
 			Number(this.$route.params.gameCode),
 			Number(this.$route.params.expertCode)
 		);
-		console.log(this.playerList);
 	},
 };
 </script>

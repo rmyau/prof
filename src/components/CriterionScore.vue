@@ -6,9 +6,12 @@
 				header="Критерий"
 			>
 				<template #body="item">
-					<div class="flex align-items-center">
+					<div class="flex align-items-center gap-3">
 						<div class="font-medium">{{ item.data.name }}</div>
-						<i class="pi pi-info-circle ml-2" v-p-tooltip.bottom="item.data.descValue"></i>
+						<i
+							class="pi pi-info-circle ml-2"
+							v-p-tooltip.bottom="item.data.descValue"
+						></i>
 					</div>
 
 					<div class="text-sm font-light p-cell-desc"></div>
@@ -25,7 +28,6 @@
 	</div>
 </template>
 <script>
-import { useCriterionScoreStore } from '@/store/criterionScore.js';
 import { mapActions, mapState } from 'pinia';
 import { usePlayerCriterionStore } from '@/store/playerCriterion.js';
 export default {
@@ -41,7 +43,7 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(useCriterionScoreStore, ['getCritetionPartsData']),
+		...mapActions(usePlayerCriterionStore, ['getCritetionPartsData']),
 		formatDescValue(descValue) {
 			return descValue
 				.map(value => `${value.cost} - ${value.desc}`)
@@ -49,38 +51,27 @@ export default {
 		},
 	},
 	computed: {
-		...mapState(useCriterionScoreStore, ['criterionPartsData']),
-		...mapState(usePlayerCriterionStore, ['playerList']),
+		...mapState(usePlayerCriterionStore, ['playersScoreData']),
 	},
 	async mounted() {
-		this.items = await this.getCritetionPartsData(
-			Number(this.$route.params.gameCode),
-			Number(this.$route.params.expertCode),
-			this.criterionCode
-		);
-
+		this.items = await this.getCritetionPartsData(this.criterionCode);
 		if (this.items.length) {
-			// Создаем список игроков и их колонок
-			this.players = this.playerList.map(player => ({
-				field: `${player.code}`,
+			this.players = this.playersScoreData.map(player => ({
+				field: `player_${player.code}`,
 				header: `Игрок ${player.code}`,
+				code: player.code,
 			}));
-
 			// Преобразуем данные
 			this.data = this.items.map(item => {
-				const playerData = item.players || [];
-				const playerScores = {}; // Объект для хранения баллов игроков
-
-				// Заполните объект playerScores данными из playerData
-				playerData.forEach(player => {
-					playerScores[player.code] = player.score;
-				});
-
-				// Создайте массив данных с баллами игроков и `null` для отсутствующих игроков
-				const playerFields = this.playerList.map(userCode => {
-					return userCode in playerScores
-						? playerScores[userCode]
-						: null;
+				const playerScores = {};
+				this.playersScoreData.forEach(player => {
+					//ищем оценку для подкритерия у пользователя
+					const scoreSubcriterion =
+						player.score.find(
+							playerScore =>
+								playerScore.subcriterionCode == item.id
+						)?.score ?? null;
+					playerScores[`player_${player.code}`] = scoreSubcriterion;
 				});
 
 				// Сортируем descValue по полю cost
@@ -91,10 +82,7 @@ export default {
 					name: item.name,
 					descValue: this.formatDescValue(sortedDescValue),
 					valueCount: sortedDescValue.length,
-					...playerFields.reduce((acc, score, index) => {
-						acc[`player_${index + 1}`] = score;
-						return acc;
-					}, {}),
+					...playerScores,
 				};
 			});
 		}

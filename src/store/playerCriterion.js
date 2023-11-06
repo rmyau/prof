@@ -11,10 +11,10 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 		 */
 		criterionList: [],
 
-		/**Список кодов пользователей
+		/**Данные по пользователям с уже доступными оценками по ним 
 		 * @type {Array<Object>}
-		 */
-		playerList: [],
+		*/
+		playersScoreData: [],
 	}),
 
 	actions: {
@@ -31,19 +31,39 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 			}
 		},
 
-		/**Получение списка кодов пользователей
-		 * @param {number} gameCode код игры
-		 * @param {number} expertCode код эксперта
+		/**Получение подкритериев
+		 * @param {number} criterionCode код критерия
+		 * @return {Array<Object>}
 		 */
-		async getPlayerList(gameCode, expertCode) {
+		async getCritetionPartsData(criterionCode) {
 			try {
 				const data = await axios
-					.post(api.getTeamUsers, { data: { gameCode, expertCode } })
-					.then(response => response.data);
-				console.log(data, 'data');
-				this.playerList = data;
+					.post(api.getSubcriterianList, {
+						data: { criterionCode },
+					})
+					.then(response => response.data.data);
+
+				return data;
 			} catch {
-				this.playerList = [];
+				return [];
+			}
+		},
+
+		/**Получение всех пользователей с заданными оценками
+		 *@param {number} gameCode код игры
+		 * @param {number} expertCode код эксперта
+		 */
+		async getPlayersScoreData(gameCode, expertCode) {
+			try {
+				const data = await axios
+					.post(api.getUserScore, {
+						data: { gameCode, expertCode },
+					})
+					.then(response => response.data.users);
+
+				this.playersScoreData =  data;
+			} catch {
+				this.playersScoreData = [];
 			}
 		},
 	},
