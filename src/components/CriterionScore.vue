@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p-data-table :value="data">
+		<p-data-table :value="dataTable">
 			<p-column
 				field="name"
 				header="Критерий"
@@ -23,15 +23,24 @@
 				:field="player.field"
 				:header="player.header"
 				style="width: 10%"
-			></p-column>
+			>
+				<template #body="data"
+					><choose-score
+						:value-count="data.data.valueCount"
+						:selected-score="findScore(player.code, data.data.code)"
+					></choose-score
+				></template>
+			</p-column>
 		</p-data-table>
 	</div>
 </template>
 <script>
 import { mapActions } from 'pinia';
 import { usePlayerCriterionStore } from '@/store/playerCriterion.js';
+import ChooseScore from './ChooseScore.vue';
 export default {
 	name: 'CriterionScore',
+	components: { ChooseScore },
 	props: {
 		criterionCode: Number,
 		playersScoreData: Array, //данные пользователей с оценками
@@ -39,8 +48,10 @@ export default {
 	},
 	data() {
 		return {
-			items: null,
-			data: [],
+			items: null, // исходные данные по подкритериям
+			dataTable: [], //преобразованные для отображения в таблице данные
+			playersScores: new Map(), //структура с оценками пользователей по подкритериям
+			selected: null,
 		};
 	},
 	methods: {
@@ -50,21 +61,45 @@ export default {
 				.map(value => `${value.cost} - ${value.desc}`)
 				.join('\n');
 		},
+		findScore(playerCode, subcriterionCode) {
+			const scoreData = this.playersScores
+				.get(playerCode)
+				.find(item => item.subcriterionCode === subcriterionCode);
+			return scoreData.score ? { value: scoreData.score } : null;
+		},
+		saveCriterionScore(playerCode, subcriterionCode, score) {
+			const playerScores = this.playerScores.get(playerCode);
+			//дописать
+			playerScores = playerScores.map((item) => item.subcriterionCode===subcriterionCode? )
+		},
 	},
+	computed: {},
 	async mounted() {
 		this.items = await this.getCritetionPartsData(this.criterionCode);
 		if (this.items.length) {
 			// Преобразуем данные
-			this.data = this.items.map(item => {
+			this.dataTable = this.items.map(item => {
 				const playerScores = {};
 				this.playersScoreData.forEach(player => {
 					//ищем оценку для подкритерия у пользователя
 					const scoreSubcriterion =
 						player.score.find(
 							playerScore =>
-								playerScore.subcriterionCode == item.id
+								playerScore.subcriterionCode === item.id
 						)?.score ?? null;
 					playerScores[`player_${player.code}`] = scoreSubcriterion;
+					//записываем в Map оценки для всех подкритериев для удобства сохранения
+					let scoresArray;
+					if (this.playersScores.has(player.code)) {
+						scoresArray = this.playersScores.get(player.code);
+					} else {
+						scoresArray = [];
+					}
+					scoresArray.push({
+						subcriterionCode: item.id,
+						score: scoreSubcriterion,
+					});
+					this.playersScores.set(player.code, scoresArray);
 				});
 
 				// Сортируем descValue по полю cost
@@ -72,6 +107,7 @@ export default {
 					(a, b) => a.cost - b.cost
 				);
 				return {
+					code: item.id,
 					name: item.name,
 					descValue: this.formatDescValue(sortedDescValue),
 					valueCount: sortedDescValue.length,

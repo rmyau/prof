@@ -55,6 +55,7 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 		 */
 		async getPlayersScoreData(gameCode, expertCode) {
 			try {
+				this.playersScoreData = [];
 				const data = await axios
 					.post(api.getUserScore, {
 						data: { gameCode, expertCode },
