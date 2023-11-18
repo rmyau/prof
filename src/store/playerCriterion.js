@@ -11,9 +11,9 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 		 */
 		criterionList: [],
 
-		/**Данные по пользователям с уже доступными оценками по ним 
+		/**Данные по пользователям с уже доступными оценками по ним
 		 * @type {Array<Object>}
-		*/
+		 */
 		playersScoreData: [],
 	}),
 
@@ -62,10 +62,33 @@ export const usePlayerCriterionStore = defineStore('playerCriterion', {
 					})
 					.then(response => response.data.users);
 
-				this.playersScoreData =  data;
+				this.playersScoreData = data;
 			} catch {
 				this.playersScoreData = [];
 			}
+		},
+		/** Сохранение новой оценки для подкритерия
+		 * @param {number} playerCode
+		 * @param {number} subcriterionCode
+		 * @param {number} score
+		 */
+		saveSubcriterionScore(playerCode, subcriterionCode, score) {
+			const indPlayer = this.playersScoreData.findIndex(
+				item => item.code === playerCode
+			);
+			const playerScores = this.playersScoreData[indPlayer].score;
+			const indScore = playerScores?.findIndex(
+				item => item.subcriterionCode === subcriterionCode
+			);
+			indScore === -1
+				? playerScores.push({ subcriterionCode, score })
+				: (playerScores[indScore].score = score);
+			this.playersScoreData[indPlayer].score = playerScores;
+		},
+
+		/**Сохранение всех оценок в базу*/
+		saveCriterionScores() {
+			console.log(this.playersScoreData);
 		},
 	},
 });

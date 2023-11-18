@@ -28,6 +28,8 @@
 					><choose-score
 						:value-count="data.data.valueCount"
 						:selected-score="findScore(player.code, data.data.code)"
+						:player-code="player.code"
+						:subcriterion-code="data.data.code"
 					></choose-score
 				></template>
 			</p-column>
@@ -66,11 +68,6 @@ export default {
 				.get(playerCode)
 				.find(item => item.subcriterionCode === subcriterionCode);
 			return scoreData.score ? { value: scoreData.score } : null;
-		},
-		saveCriterionScore(playerCode, subcriterionCode, score) {
-			const playerScores = this.playerScores.get(playerCode);
-			//дописать
-			playerScores = playerScores.map((item) => item.subcriterionCode===subcriterionCode? )
 		},
 	},
 	computed: {},

@@ -1,5 +1,16 @@
 <template>
 	<div>
+		<div class="text-lg flex justify-content-between m-3">
+			<p-button
+				label="Назад"
+				icon="pi pi-arrow-left "
+			></p-button>
+			<p-button
+				label="Сохранить"
+				@click="saveCriterionScores()"
+			></p-button>
+		</div>
+
 		<div
 			v-for="criterionBlock of criterionList"
 			:key="criterionBlock.blockId"
@@ -49,6 +60,7 @@ export default {
 			'getCriterionList',
 			'getPlayerList',
 			'getPlayersScoreData',
+			'saveCriterionScores',
 		]),
 	},
 	computed: {
