@@ -67,13 +67,19 @@ export default {
 		async goNext() {
 			await this.getUser(this.inputLogin, this.inputPassword);
 			if (this.code) {
-				this.$router.push('games/' + this.code);
+				if (this.isAdmin){
+					this.$router.push('admin/games');
+				}
+				else{
+					this.$router.push('games/' + this.code);
+				}
+				
 			} else this.invalidData = true;
 		},
 		...mapActions(useExpertStore, ['getUser']),
 	},
 	computed: {
-		...mapState(useExpertStore, ['code']),
+		...mapState(useExpertStore, ['code','isAdmin']),
 	},
 };
 </script>

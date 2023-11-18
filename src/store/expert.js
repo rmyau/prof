@@ -16,6 +16,10 @@ export const useExpertStore = defineStore('expert', {
 		 * @type {string}
 		 */
 		login: '',
+		/**Является ли админом
+		 * @type {number}
+		 */
+		isAdmin: 0,
 	}),
 
 	actions: {
@@ -31,7 +35,8 @@ export const useExpertStore = defineStore('expert', {
 				const user = response.data.user;
 				this.code = user?.code ?? null;
 				this.name = user?.name ?? '';
-				this.login = user ? login : '';
+				this.login = user?.login ?? '';
+				this.isAdmin = user?.isAdmin ?? 0;
 			}
 		},
 	},

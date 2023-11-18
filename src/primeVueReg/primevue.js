@@ -9,8 +9,9 @@ import {
 	Password,
 	PrimeVue,
 	Toolbar,
-	Tooltip
-} from './components'
+	Tooltip,
+	Sidebar,
+} from './components';
 
 export default function regPrimeVue(app) {
 	app.use(PrimeVue, { ripple: true });
@@ -24,4 +25,5 @@ export default function regPrimeVue(app) {
 	app.component('PColumn', Column);
 	app.component('PDropdown', Dropdown);
 	app.component('PPassword', Password);
+	app.component('PSidebar', Sidebar);
 }
